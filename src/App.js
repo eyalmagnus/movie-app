@@ -89,7 +89,7 @@ const App = () => {
     "https://www.themoviedb.org/person/142660-lisa-vicari",
   ];
 
-  var actorsY = [];
+  var actorsX = [];
   for (let i = 0; i < lnames.length; i++) {
     let actor = new ActorModel(
       fnames[i],
@@ -98,12 +98,12 @@ const App = () => {
       images[i],
       links[i]
     );
-    actorsY.push(actor);
+    actorsX.push(actor);
   }
-  const [actors, setActors] = useState(actorsY);
-  var actorsX = actors;
+
+  const [actors, setActors] = useState(actorsX.slice());
+
   const sortFname = () => {
-    var trans;
     var flag = true;
     console.log("fsort", actorsX);
     while (flag === true) {
@@ -111,7 +111,7 @@ const App = () => {
       for (let i = 0; i < actorsX.length - 1; i++) {
         if (actorsX[i].fname > actorsX[i + 1].fname) {
           flag = true;
-          trans = actorsX[i];
+          var trans = actorsX[i];
           actorsX[i] = actorsX[i + 1];
           actorsX[i + 1] = trans;
         }
@@ -119,7 +119,6 @@ const App = () => {
     }
   };
   const sortLname = () => {
-    var trans;
     var flag = true;
     console.log("lsort", actorsX);
     while (flag === true) {
@@ -127,7 +126,7 @@ const App = () => {
       for (let i = 0; i < actorsX.length - 1; i++) {
         if (actorsX[i].lname > actorsX[i + 1].lname) {
           flag = true;
-          trans = actorsX[i];
+          var trans = actorsX[i];
           actorsX[i] = actorsX[i + 1];
           actorsX[i + 1] = trans;
         }
@@ -135,15 +134,14 @@ const App = () => {
     }
   };
   const sortAge = () => {
-    var trans;
     var flag = true;
     console.log("asort", actorsX);
     while (flag === true) {
       flag = false;
       for (let i = 0; i < actorsX.length - 1; i++) {
-        if (actorsX[i].age > actorsX[i + 1].age) {
+        if (actorsX[i].actorAge() > actorsX[i + 1].actorAge()) {
           flag = true;
-          trans = actorsX[i];
+          var trans = actorsX[i];
           actorsX[i] = actorsX[i + 1];
           actorsX[i + 1] = trans;
         }
@@ -182,12 +180,12 @@ const App = () => {
       default:
         console.log("def");
     }
-    setActors(() => actorsX);
+    setActors(actorsX);
   };
   function renderCards() {
     var actorCards = [];
     for (let i = 0; i < actors.length; i++) {
-      actorCards.push(<ActorCard key={actors[i].image} actor={actors[i]} />);
+      actorCards.push(<ActorCard key={i} actor={actors[i]} />);
     }
     return actorCards;
   }
